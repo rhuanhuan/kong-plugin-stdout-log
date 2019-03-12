@@ -13,8 +13,9 @@ end
 
 function StdoutLogHandler:log(conf)
   StdoutLogHandler.super.log(self)
-  local message = basic_serializer.serialize(ngx)
-  print(cjson.encode(message))
+  local message = cjson.encode(basic_serializer.serialize(ngx))
+  message = message:gsub("apikey%=(%w+)", "apikey=xxx"):gsub("authorization\":\"([^%\"]+)", "authorization\":\"xxx")
+  print(message)
 end
 
 return StdoutLogHandler
